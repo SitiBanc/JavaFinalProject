@@ -1,0 +1,9 @@
+﻿<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}JAVA期末專題
+${licensePrefix}4102029018 陳欣儀
+${licensePrefix}引用請註明來源
+<#if licenseLast??>
+${licenseLast}
+</#if>
