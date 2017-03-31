@@ -1,0 +1,141 @@
+HiredDate.java
+public class HiredDate {
+	private int year, month, day;
+	public HiredDate(){
+	}
+	public void setYear(int y){
+	year=y;
+	}
+	public int getYear(){
+	return year;
+	}
+	public void setMonth(int m){
+	month=m;
+	}
+	public int getMonth(){
+	return month;
+	}
+	public void setDay(int d){
+	day=d;
+	}
+	public int getDay(){
+	return day;
+	}
+}
+
+Worker.java
+public class Worker {
+	private String name;
+    private int hours;
+    HiredDate hiredate=new HiredDate();
+	public Worker(){
+		hours=0;
+	}
+	public void setName(String n){
+		name=n;
+	}
+	public String getName(){
+		return name;
+	}
+	public void setHours(int h){
+		hours=h;
+	}
+	public int getHours(){
+		return hours;
+	}
+	public void setHiredDate(int y,int m,int d){
+		hiredate.setYear(y);
+		hiredate.setMonth(m);
+		hiredate.setDay(d);
+	}
+	public String getHiredDate(){
+		int y=hiredate.getYear();
+		y-=1911;
+		int m=hiredate.getMonth();
+		int d=hiredate.getDay();
+		String hd="民國"+y+"年"+m+"月"+d+"日";
+		return hd;
+	} 
+	public int calSalary(){
+		return hours*100;
+	}
+}
+
+DisplayWorker.java
+import java.util.*;
+import java.lang.*;
+import javax.swing.*;
+public class DisplayWorker{
+	public static void main(String[] args){
+		int h,i,j;
+		int a,b,y,m,d;
+		String date,year,month,day;
+		Worker w1=new Worker();
+		System.out.print("請輸入員工姓名：");
+		Scanner s1=new Scanner(System.in);
+		w1.setName(s1.next());
+		do{
+			i=0;
+			System.out.print("請輸入工作時數：");
+			Scanner s2=new Scanner(System.in);
+			h=s2.nextInt();
+			if(h<=0){
+				System.out.println("工作時數不得低於0，請重新輸入！");
+				i=1;
+			}
+			w1.setHours(h);
+		}while(i==1);
+		do{
+			j=0;
+			System.out.print("請輸入起聘日(月-日-西元年)：");
+			Scanner s3=new Scanner(System.in);
+			date=s3.next();
+			a=date.indexOf("-");
+			b=date.lastIndexOf("-");
+			year=date.substring(b+1);
+			y=Integer.parseInt(year);
+			if(y<1911){
+				System.out.println("輸入年份錯誤，請重新輸入！");
+				j=1;
+			}
+			month=date.substring(0,a);
+			m=Integer.parseInt(month);
+			if(m<1||m>12){
+				System.out.println("輸入月份錯誤，請重新輸入！");
+				j=1;
+			}
+			day=date.substring(a+1,b);
+			d=Integer.parseInt(day);
+			if(d>0&&d<29){
+				;
+			}
+			else{
+				if(d<32&&(m==1||m==3||m==5||m==7||m==8||m==10||m==12)){
+					;
+				}
+				if(d<31&&(m==4||m==6||m==9||m==11)){
+					;
+				}
+				if(m==2){
+					if((y%4==0&&y%100!=0||y%400==0)){
+						if(d<30){
+							;
+						}
+					}
+					else{
+						System.out.println("輸入日期錯誤，請重新輸入！");
+						j=1;
+					}
+				}
+				else{
+					System.out.println("輸入日期錯誤，請重新輸入！");
+					j=1;
+				}
+			}
+		}while(j==1);
+		w1.setHiredDate(y,m,d);
+		System.out.println(w1.getName()+"\t工作時數"+w1.getHours()+"小時");
+		System.out.println("起聘日\t"+w1.getHiredDate());
+		System.out.print("薪資\t"+w1.calSalary());
+	}
+}
